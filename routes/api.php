@@ -1,7 +1,9 @@
 <?php
 
+    use App\Http\Controllers\API\Attendence\AttendenceController;
     use App\Http\Controllers\API\Auth\LoginController;
-    use Illuminate\Http\Request;
+    use App\Http\Controllers\API\Auth\LogoutController;
+    use App\Http\Controllers\API\Leaderboard\LeaderboardController;
     use Illuminate\Support\Facades\Route;
 
     /*
@@ -20,6 +22,14 @@
 //        return $request->user();
 //    });
 
-    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-        return $request->user();
+    Route::post('check-in', [AttendenceController::class, 'checkIn'])->name('check_in');
+    Route::patch('check-out/{attendence}', [AttendenceController::class, 'checkOut'])->name('check_out');
+    Route::get('top-five-average-working-hour', [LeaderboardController::class, 'index'])
+           ->name('top_five_average_working_hour');
+
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::post('auth/logout', [LogoutController::class, 'logout'])->name('logout');
+
+
     });
