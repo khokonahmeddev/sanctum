@@ -1,19 +1,38 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+    use App\Http\Controllers\API\Attendence\AttendenceController;
+    use App\Http\Controllers\API\Auth\LoginController;
+    use App\Http\Controllers\API\Auth\LogoutController;
+    use App\Http\Controllers\API\Leaderboard\LeaderboardController;
+    use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+    /*
+    |--------------------------------------------------------------------------
+    | API Routes
+    |--------------------------------------------------------------------------
+    |
+    | Here is where you can register API routes for your application. These
+    | routes are loaded by the RouteServiceProvider within a group which
+    | is assigned the "api" middleware group. Enjoy building your API!
+    |
+    */
+    auth()->loginUsingId(1);
+    Route::post('login', [LoginController::class, 'login'])->name('login');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//    Route::middleware('auth:api')->get('/user', function (Request $request) {
+//        return $request->user();
+//    });
+
+
+
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::post('auth/logout', [LogoutController::class, 'logout'])->name('logout');
+        Route::post('check-in', [AttendenceController::class, 'checkIn'])->name('check_in');
+        Route::patch('check-out/{attendence}', [AttendenceController::class, 'checkOut'])->name('check_out');
+        Route::get('top-five-average-working-hour', [LeaderboardController::class, 'index'])
+            ->name('top_five_average_working_hour');
+        Route::get('logged-in-user-positions', [LeaderboardController::class, 'loggedInUserPosition'])
+            ->name('logged_in_user_positions');
+
+    });
