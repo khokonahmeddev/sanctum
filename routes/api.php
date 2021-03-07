@@ -16,20 +16,23 @@
     | is assigned the "api" middleware group. Enjoy building your API!
     |
     */
+    auth()->loginUsingId(1);
     Route::post('login', [LoginController::class, 'login'])->name('login');
 
 //    Route::middleware('auth:api')->get('/user', function (Request $request) {
 //        return $request->user();
 //    });
 
-    Route::post('check-in', [AttendenceController::class, 'checkIn'])->name('check_in');
-    Route::patch('check-out/{attendence}', [AttendenceController::class, 'checkOut'])->name('check_out');
-    Route::get('top-five-average-working-hour', [LeaderboardController::class, 'index'])
-           ->name('top_five_average_working_hour');
+
 
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('auth/logout', [LogoutController::class, 'logout'])->name('logout');
-
+        Route::post('check-in', [AttendenceController::class, 'checkIn'])->name('check_in');
+        Route::patch('check-out/{attendence}', [AttendenceController::class, 'checkOut'])->name('check_out');
+        Route::get('top-five-average-working-hour', [LeaderboardController::class, 'index'])
+            ->name('top_five_average_working_hour');
+        Route::get('logged-in-user-positions', [LeaderboardController::class, 'loggedInUserPosition'])
+            ->name('logged_in_user_positions');
 
     });

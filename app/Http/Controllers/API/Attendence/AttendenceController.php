@@ -13,7 +13,7 @@
         public function checkIn()
         {
             Attendence::create([
-                'user_id' => 5,
+                'user_id' => 7,
             ]);
 
             return response()->json('Check in successfully', 200);
